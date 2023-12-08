@@ -1,0 +1,38 @@
+package com.workintech.operations;
+
+
+import com.workintech.database.Database;
+import com.workintech.user.Admin;
+import com.workintech.user.Member;
+import com.workintech.user.User;
+
+import java.util.Scanner;
+
+public class DeleteBook implements Operations {
+
+
+    @Override
+    public void oper(Database database, User user) {
+        Member member = new Member();
+        User admin = new Admin();
+
+        Scanner scanner = new Scanner(System.in);
+database.getBooks();
+        System.out.println("silmek istediğiniz kitabın id numarasını giriniz:");
+        long bookId=scanner.nextLong();
+        database.deleteBook(bookId);
+
+        System.out.println("1-Kütüphane İşlemleri \n2-Üye İşlemleri");
+        int num = scanner.nextInt();
+        if (num == 1) {
+            admin.menu(database, admin);
+        } else if (num == 2) {
+            database.getUsers();
+
+            System.out.println("İşlem yapılacak üyenin id'sini giriniz:");
+            int memberId = scanner.nextInt();
+            User foundUser=database.getMember(memberId);
+            member.menu(database, foundUser);
+        }
+    }
+}
